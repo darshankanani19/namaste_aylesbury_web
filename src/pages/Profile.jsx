@@ -39,13 +39,12 @@ const Profile = () => {
   return (
     <div className="w-full min-h-screen p-4 md:p-8 flex justify-center">
       <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Left Section */}
-        <div className="bg-white p-6 rounded-xl shadow-sm md:col-span-2">
+        
+        <div className="bg-white p-6 rounded-xl shadow-sm md:col-span-2 order-2 md:order-1">
           {renderLeftContent()}
         </div>
 
-        {/* Right Section - Profile Card */}
-        <div className="bg-white rounded-xl shadow-sm p-6 flex flex-col items-center">
+        <div className="bg-white rounded-xl shadow-sm p-6 flex flex-col items-center order-1 md:order-2">
           <div className="w-20 h-20 rounded-full bg-[#E48542] text-white flex items-center justify-center text-3xl font-semibold mb-4">
             G
           </div>

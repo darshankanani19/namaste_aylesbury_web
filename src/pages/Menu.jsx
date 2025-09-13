@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../styles.css"; // Ensure styles are imported
+import "../styles.css";
 import MenuCard from "../components/MenuCard";
 import CartCard from "../components/CartCard";
 
@@ -30,7 +30,7 @@ const prices = {
 const taxRate = 0.05;
 
 const thaliImages = {
-  "Mini Thali": "src/assets/miniThali.png", // ensure correct public path or import
+  "Mini Thali": "src/assets/miniThali.png",
   "Full Thali": "src/assets/fullThali.png",
 };
 
@@ -96,37 +96,41 @@ const Menu = () => {
   const selectedPrice = prices[selectedOption];
 
   return (
-    <div
-      className="min-h-screen font-sans text-black overflow-x-hidden"
-    >
-
-      <div  >
-        <main className="max-w-7xl flex-1 flex flex-col lg:flex-row gap-8 overflow-hidden">
-          <section className="flex-1 bg-white rounded-xl p-6 shadow-md border border-[#EDD9CD] overflow-auto">
-            <div className="flex justify-between items-center mb-5">
-              <h2 className="text-2xl font-bold text-[#E48542]">Menu</h2>
-              <div className="flex gap-3 text-sm">
-                {["Mini Thali", "Full Thali"].map((option) => (
-                  <button
-                    key={option}
-                    onClick={() => {
-                      setSelectedOption(option);
-                      setQuantity(1);
-                    }}
-                    className="px-3 py-1 rounded font-semibold transition"
-                    style={{
-                      backgroundColor: selectedOption === option ? "#EDD9CD" : "#F0EFF2",
-                      color: selectedOption === option ? "#E48542" : "#000000",
-                      border: selectedOption === option ? "1px solid #E48542" : "1px solid transparent",
-                    }}
-                  >
-                    {option}
-                  </button>
-                ))}
-              </div>
+    <div className="min-h-screen font-sans text-black bg-[#F9F6F3] p-4 sm:p-6 lg:p-8">
+      <main className="w-full max-w-7xl mx-auto flex flex-col lg:flex-row gap-6">
+        {/* Menu Section */}
+        <section className="flex-1 bg-white rounded-xl p-6 shadow-md border border-[#EDD9CD] overflow-hidden">
+          {/* Header */}
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-5 gap-4">
+            <h2 className="text-2xl font-bold text-[#E48542]">Menu</h2>
+            <div className="flex gap-2 text-sm">
+              {["Mini Thali", "Full Thali"].map((option) => (
+                <button
+                  key={option}
+                  onClick={() => {
+                    setSelectedOption(option);
+                    setQuantity(1);
+                  }}
+                  className="px-3 py-1 rounded font-semibold transition"
+                  style={{
+                    backgroundColor:
+                      selectedOption === option ? "#EDD9CD" : "#F0EFF2",
+                    color: selectedOption === option ? "#E48542" : "#000000",
+                    border:
+                      selectedOption === option
+                        ? "1px solid #E48542"
+                        : "1px solid transparent",
+                  }}
+                >
+                  {option}
+                </button>
+              ))}
             </div>
+          </div>
 
-            <div className="flex gap-3 mb-4">
+          {/* Scrollable Day Selector */}
+          <div className="mb-4 overflow-x-auto">
+            <div className="flex gap-2 w-max">
               {days.map((day, i) => (
                 <button
                   key={day}
@@ -135,43 +139,49 @@ const Menu = () => {
                     setSelectedOption("Mini Thali");
                     setQuantity(1);
                   }}
-                  className="px-4 py-1.5 rounded-full font-semibold text-sm transition"
+                  className="px-4 py-1.5 rounded-full font-semibold text-sm whitespace-nowrap transition"
                   style={{
-                    backgroundColor: i === selectedDay ? "#EDD9CD" : "#F0EFF2",
+                    backgroundColor:
+                      i === selectedDay ? "#EDD9CD" : "#F0EFF2",
                     color: i === selectedDay ? "#E48542" : "#000000",
-                    border: i === selectedDay ? "1px solid #E48542" : "1px solid transparent",
+                    border:
+                      i === selectedDay
+                        ? "1px solid #E48542"
+                        : "1px solid transparent",
                   }}
                 >
                   {day}
                 </button>
               ))}
             </div>
+          </div>
 
+          {/* Menu Card */}
+          <MenuCard
+            day={currentDay}
+            date={new Date().toLocaleDateString()}
+            type={selectedOption}
+            items={selectedItems}
+            image={selectedImage}
+            quantity={quantity}
+            price={selectedPrice}
+            onIncrease={() => changeQuantity(1)}
+            onDecrease={() => changeQuantity(-1)}
+            onAddToCart={handleAddToCart}
+          />
+        </section>
 
+        {/* Cart Section */}
+        <aside className="w-full lg:w-96 bg-white rounded-xl p-6 shadow-md border border-[#EDD9CD] flex flex-col overflow-hidden">
+          <h3 className="text-xl font-bold text-[#E48542] mb-4">My Order</h3>
 
-            <MenuCard
-              day={currentDay}
-              date={new Date().toLocaleDateString()}
-              type={selectedOption}
-              items={selectedItems}
-              image={selectedImage}
-              quantity={quantity}
-              price={selectedPrice}
-              onIncrease={() => changeQuantity(1)}
-              onDecrease={() => changeQuantity(-1)}
-              onAddToCart={handleAddToCart}
-            />
-          </section>
-
-          <aside className="w-full lg:w-96 bg-white rounded-xl p-6 shadow-md border border-[#EDD9CD] flex flex-col overflow-auto">
-            <h3 className="text-xl font-bold text-[#E48542] mb-4">My Order</h3>
-
-            {Object.keys(cart).length === 0 ? (
-              <p className="text-gray-600">Cart is empty</p>
-            ) : (
-              <>
-                <div className="border border-dashed rounded-md p-3 mb-6 overflow-y-auto max-h-65 hide-scrollbar">
-                  {Object.entries(cart).map(([key, { day, option, qty, price }]) => (
+          {Object.keys(cart).length === 0 ? (
+            <p className="text-gray-600">Cart is empty</p>
+          ) : (
+            <>
+              <div className="border border-dashed rounded-md p-3 mb-6 overflow-y-auto max-h-60 hide-scrollbar">
+                {Object.entries(cart).map(
+                  ([key, { day, option, qty, price }]) => (
                     <CartCard
                       key={key}
                       day={day}
@@ -182,44 +192,45 @@ const Menu = () => {
                       onIncrease={() => updateCartQuantity(key, 1)}
                       onDecrease={() => updateCartQuantity(key, -1)}
                       onRemove={() => {
-    setCart((prev) => {
-      const { [key]: _, ...rest } = prev;
-      return rest;
-    });
-  }}
+                        setCart((prev) => {
+                          const { [key]: _, ...rest } = prev;
+                          return rest;
+                        });
+                      }}
                     />
-                  ))}
-                </div>
+                  )
+                )}
+              </div>
 
-                <div className="text-sm text-gray-700 mb-2">
-                  <div className="flex justify-between">
-                    <span>Subtotal</span>
-                    <span className="font-semibold">${subtotal.toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Tax (5%)</span>
-                    <span className="font-semibold">${tax.toFixed(2)}</span>
-                  </div>
+              <div className="text-sm text-gray-700 mb-2">
+                <div className="flex justify-between">
+                  <span>Subtotal</span>
+                  <span className="font-semibold">${subtotal.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between font-bold text-[#E48542] text-lg mb-6 border-t border-[#EDD9CD] pt-2">
-                  <span>Total</span>
-                  <span>${total.toFixed(2)}</span>
+                <div className="flex justify-between">
+                  <span>Tax (5%)</span>
+                  <span className="font-semibold">${tax.toFixed(2)}</span>
                 </div>
+              </div>
 
-                <button
-                  className="py-2 rounded-full font-semibold transition"
-                  style={{
-                    backgroundColor: "#E48542",
-                    color: "#FFFFFF",
-                  }}
-                >
-                  Place Order
-                </button>
-              </>
-            )}
-          </aside>
-        </main>
-      </div>
+              <div className="flex justify-between font-bold text-[#E48542] text-lg mb-6 border-t border-[#EDD9CD] pt-2">
+                <span>Total</span>
+                <span>${total.toFixed(2)}</span>
+              </div>
+
+              <button
+                className="py-2 rounded-full font-semibold transition"
+                style={{
+                  backgroundColor: "#E48542",
+                  color: "#FFFFFF",
+                }}
+              >
+                Place Order
+              </button>
+            </>
+          )}
+        </aside>
+      </main>
     </div>
   );
 };
