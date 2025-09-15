@@ -1,9 +1,9 @@
+// components/CartCard.js
 import React from "react";
 
 const CartCard = ({
-  day,
-  type,
   image,
+  type,
   quantity,
   price,
   onIncrease,
@@ -14,18 +14,17 @@ const CartCard = ({
 
   return (
     <div
-      className="flex justify-between rounded-xl px-4 py-3 mb-3"
+      className="flex justify-between items-center rounded-xl px-4 py-3 mb-4 w-full"
       style={{
         backgroundColor: "#F0EFF2",
         border: "2px dashed #C2C2C2",
       }}
     >
-      {/* Left: Image & Details */}
       <div className="flex items-center gap-3">
         <img
           src={image}
           alt={type}
-          className="w-13 h-13 rounded-full object-cover border border-gray-300"
+          className="w-14 h-14 rounded-full object-cover border border-gray-300"
           onError={(e) => {
             e.target.style.display = "none";
           }}
@@ -36,7 +35,6 @@ const CartCard = ({
         </div>
       </div>
 
-      {/* Right: Quantity Controls & Remove */}
       <div className="flex flex-col items-center gap-2 sm:gap-3">
         <div className="flex items-center gap-3">
           <button
@@ -67,14 +65,12 @@ const CartCard = ({
           </button>
         </div>
 
-        {/* 🗑️ Remove Button Styled */}
         <button
           onClick={onRemove}
           className="font-semibold h-7 w-20 rounded-full flex items-center justify-center transition"
-
           style={{
-            backgroundColor: "#FF5C5C", // red background
-            color: "#FFFFFF",           // white text
+            backgroundColor: "#FF5C5C",
+            color: "#FFFFFF",
             cursor: "pointer",
           }}
         >

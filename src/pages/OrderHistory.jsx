@@ -1,75 +1,79 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
+const orderHistoryData = [
+  {
+    id: 1,
+    type: "Mini Thali",
+    image: "src/assets/miniThali.png", // replace with actual path
+    price: 6,
+    delivered: true,
+  },
+  {
+    id: 2,
+    type: "Full Thali",
+    image: "src/assets/fullThali.png", // replace with actual path
+    price: 9,
+    delivered: false,
+  },
+];
 
 const OrderHistory = () => {
-  // Dummy orders (replace with API later)
-  const orders = [
-    {
-      id: "ORD12345",
-      item: "Mini Thali",
-      date: "2025-09-01",
-      status: "Delivered",
-      amount: "₹99",
-    },
-    {
-      id: "ORD12346",
-      item: "Full Thali",
-      date: "2025-09-05",
-      status: "In Progress",
-      amount: "₹149",
-    },
-    {
-      id: "ORD12347",
-      item: "Monthly Subscription",
-      date: "2025-09-10",
-      status: "Pending",
-      amount: "₹2400",
-    },
-  ];
+  const navigate = useNavigate();
+
+  const handleMakeOrder = () => {
+    navigate("/menu");
+  };
 
   return (
-    <div className="w-full min-h-screen bg-gray-50 flex items-center justify-center p-6">
-      <div className="max-w-5xl w-full bg-white shadow-lg rounded-2xl p-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-          Order History
-        </h1>
+    <div className="bg-[#F9F9F9] rounded-xl p-4 sm:p-6">
+      <h2 className="text-lg sm:text-xl font-bold text-black mb-4">History</h2>
 
-        <div className="overflow-x-auto">
-          <table className="w-full table-auto border-collapse">
-            <thead>
-              <tr className="bg-gray-100 text-gray-700">
-                <th className="p-4 text-left">Order ID</th>
-                <th className="p-4 text-left">Item</th>
-                <th className="p-4 text-left">Date</th>
-                <th className="p-4 text-left">Status</th>
-                <th className="p-4 text-left">Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              {orders.map((order, index) => (
-                <tr
-                  key={index}
-                  className="border-b border-gray-200 hover:bg-gray-50"
-                >
-                  <td className="p-4">{order.id}</td>
-                  <td className="p-4">{order.item}</td>
-                  <td className="p-4">{order.date}</td>
-                  <td
-                    className={`p-4 font-medium ${
-                      order.status === "Delivered"
-                        ? "text-green-600"
-                        : order.status === "In Progress"
-                        ? "text-yellow-600"
-                        : "text-red-600"
-                    }`}
-                  >
-                    {order.status}
-                  </td>
-                  <td className="p-4 font-semibold">{order.amount}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+      <div className="space-y-4">
+        {orderHistoryData.map((item) => (
+          <div
+            key={item.id}
+            className="flex justify-between items-center border-2 border-dashed border-[#C2C2C2] rounded-xl px-4 py-3"
+          >
+            {/* Left: Image and Info */}
+            <div className="flex items-center gap-3">
+              <img
+                src={item.image}
+                alt={item.type}
+                className="w-12 h-12 rounded-full object-cover border border-gray-300"
+              />
+              <div>
+                <p className="font-bold text-black text-base">{item.type}</p>
+                <p className="text-sm text-gray-500">View more</p>
+              </div>
+            </div>
+
+            {/* Right: Price & Delivery Status */}
+            <div className="text-right">
+              <p className="text-[#E48542] font-bold">${item.price}</p>
+              <p
+                className={`text-sm font-semibold ${
+                  item.delivered ? "text-green-600" : "text-red-600"
+                }`}
+              >
+                {item.delivered ? "Delivered" : "Not Delivered"}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Divider */}
+      <hr className="my-6 border-t border-dotted border-gray-300" />
+
+      {/* Button */}
+      <div className="text-center">
+        <button
+        onClick={handleMakeOrder}
+        className="bg-[#FF904D] text-white font-semibold px-8 py-2 rounded-full transition hover:bg-[#e87b3d]"
+      >
+        Make Order
+      </button>
       </div>
     </div>
   );
